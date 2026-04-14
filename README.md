@@ -1,40 +1,59 @@
 # gstack-workshop
 
-개발자 커뮤니티 MVP를 무대로 Claude Code + gstack 하네스(harness)를 해부하는 한국어 블로그 시리즈 + 동반 참조 구현.
+A Korean blog series that dissects the Claude Code + gstack **harness** (skills, hooks, settings, subagents) using a developer-community MVP as its stage — with a companion reference implementation git-tagged at the end of each post.
 
-- **스택**: Flutter + Dart 서버(shelf) + PostgreSQL + Docker
-- **언어**: 한국어 (코드 주석은 영문)
-- **시리즈 원본**: [`/docs/series/`](./docs/series/)
-- **설계 문서**: [`/docs/series/DESIGN.md`](./docs/series/DESIGN.md)
+- **Stack**: Flutter + Dart server (shelf) + PostgreSQL + Docker
+- **Blog language**: Korean (code comments are English)
+- **Infra-doc language** (this README, `docs/series/DESIGN.md`, `docs/contracts/`): English
+- **Series source**: [`/docs/series/`](./docs/series/)
+- **Design doc**: [`/docs/series/DESIGN.md`](./docs/series/DESIGN.md)
 
-## 시리즈 구성 (잠정)
+## Series Outline (tentative)
 
-| 태그 | 제목 | 핵심 하네스 주제 |
-|------|------|------------------|
-| v0.0 | 프롤로그 — 하네스란 무엇인가 | 하네스 vs Claude Code vs gstack |
-| v0.1 | 환경 세팅 — 스택과 gstack 첫 터치 | 스킬 로드 메커니즘 |
-| v0.2 | 회원가입 — 커스텀 스킬 | 스킬 구조 전반 |
-| v0.3 | 로그인 — 훅·권한 모델 | PreToolUse/PostToolUse, settings 계층 |
-| v0.4 | 스레드 — 병렬 subagent | Agent tool, self-contained prompt |
-| v0.5 | 댓글 — Plan mode + /review | plan mode, review 싸이클 |
-| v0.6 | 좋아요 — 파괴 SQL 차단 훅 | 훅의 한계와 안전망 관점 |
-| v0.7 | 에필로그 — 멘탈 모델 | 전체 흐름 정리 |
+| Tag  | Title (Korean, to be drafted)            | Harness focus                               |
+|------|------------------------------------------|---------------------------------------------|
+| v0.0 | 프롤로그 — 하네스란 무엇인가              | harness vs Claude Code vs gstack            |
+| v0.1 | 환경 세팅 — 스택과 gstack 첫 터치         | how a skill loads                           |
+| v0.2 | 회원가입 — 커스텀 스킬                    | skill structure end-to-end                  |
+| v0.3 | 로그인 — 훅·권한 모델                     | PreToolUse / PostToolUse, settings layering |
+| v0.4 | 스레드 — 병렬 subagent                    | Agent tool, self-contained prompts          |
+| v0.5 | 댓글 — Plan mode + /review                | plan mode, review cycle                     |
+| v0.6 | 좋아요 — 파괴 SQL 차단 훅                 | hook limits, safety-net framing             |
+| v0.7 | 에필로그 — 멘탈 모델                      | whole-system overview                       |
 
-## 독자 사용법
+## Reader Quickstart
 
-특정 편 상태를 재현하고 싶다면:
+To reproduce the state at any post:
 
 ```bash
 git clone git@github.com:aiiiiiiiden/gstack-workshop.git
 cd gstack-workshop
-git checkout v0.N   # N = 0~7
-docker-compose up   # MVP 로컬 구동 (v0.1 이후)
+git checkout v0.N        # N = 0..7
+docker-compose up        # MVP runs locally (from v0.1 onward)
 ```
 
-## 태그 규칙
+## Tag Rule
 
-태그는 **append-only**. 이전 편 버그 수정은 다음 태그에 포함되며, 과거 태그를 force-push로 덮지 않음. 각 태그는 해당 편을 쓸 당시의 솔직한 스냅샷.
+Tags are **append-only**. Bug fixes for earlier posts land in the **next** tag; prior tags are never force-pushed. Each tag is the honest snapshot of that post's ending state.
 
-## 라이선스
+## Repo Layout
 
-추후 결정 (P3 완료 시점에 공개 출판처와 함께 결정).
+```
+.
+├── README.md                     # this file (English)
+├── docker-compose.yml            # from v0.1
+├── apps/
+│   ├── dart_server/              # shelf-based HTTP server
+│   └── flutter_client/           # Flutter app
+├── db/                           # Postgres schema / migrations
+├── .claude/                      # Claude Code local settings (gitignored) + project skills
+└── docs/
+    ├── series/                   # blog posts 00..07 (Korean)
+    │   └── DESIGN.md             # series design spec (English)
+    ├── contracts/                # API contracts (English, TypeScript-style interfaces)
+    └── assets/<post-number>/     # screenshots for each post
+```
+
+## License
+
+TBD — decided at the P3 checkpoint together with the publication platform choice.
